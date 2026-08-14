@@ -138,7 +138,7 @@ create table pessoas.pessoa_fisica
     created_at timestamptz         not null default now(),
     updated_at timestamptz         not null default now(),
     constraint uq_pessoa_fisica_cpf unique (cpf),
-    constraint ck_pessoa_fisica_cpf check (documento.cpf_valido(cpf) and cpf = documento.cpf_normalizado(cpf)),
+    constraint ck_pessoa_fisica_cpf check (cpf ~ '^[0-9]{11}$' AND documento.cpf_valido(cpf)),
     constraint fk_pessoa_fisica_pessoa foreign key (id_pessoa, tipo) references pessoas.pessoa (id_pessoa, tipo) on delete cascade
 );
 
@@ -151,7 +151,7 @@ create table pessoas.pessoa_juridica
     created_at    timestamptz         not null default now(),
     updated_at    timestamptz         not null default now(),
     constraint uq_pessoa_juridica_cnpj unique (cnpj),
-    constraint ck_pessoa_juridica_cnpj check (documento.cnpj_valido(cnpj) and cnpj = documento.cnpj_normalizado(cnpj)),
+    constraint ck_pessoa_juridica_cnpj check (cnpj ~ '^[0-9]{14}$' AND documento.cnpj_valido(cnpj)),
     constraint fk_pessoa_juridica_pessoa foreign key (id_pessoa, tipo) references pessoas.pessoa (id_pessoa, tipo) on delete cascade
 );
 
