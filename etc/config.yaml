@@ -1,0 +1,6 @@
+database:
+  host: teste
+  port: 1
+  name: teste
+  username: teste
+  password: teste
