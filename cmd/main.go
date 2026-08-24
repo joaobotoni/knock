@@ -2,20 +2,26 @@ package main
 
 import (
 	"fmt"
-	"github.com/joaobotoni/knock/yaml"
 	"log"
+	"github.com/joaobotoni/knock/env"
+	"github.com/joaobotoni/knock/yaml"
 )
 
 const (
-	path = "etc/config.yaml"
+	PATH = "etc/config.yaml"
+	ENV  = ".env"
 )
 
 func main() {
-	
-	data, err := yaml.Load(path)
-	if err != nil {
-		log.Fatalf("Erro: %v", err)
-	}
-	fmt.Printf("Values: %s %d %s\n", data.Database.Host, data.Database.Port, data.Database.Name)
 
+	if err := env.Load(ENV); err != nil {
+		log.Fatalf("Erro ao carregar as variaveis de ambiente: %v", err)
+	}
+
+	data, err := yaml.Load(PATH)
+	if err != nil {
+		log.Fatalf("Erro ao carregar os arquivos de configuração: %v", err)
+	}
+	
+	fmt.Printf("Data: %s\n", data.Database.Host)
 }

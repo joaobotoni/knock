@@ -1,6 +1,6 @@
 database:
-  host: teste
-  port: 1
-  name: teste
-  username: teste
-  password: teste
+  host: ${DB_HOST}
+  port: ${DB_PORT}
+  name: ${DB_NAME}
+  username: ${DB_USERNAME}
+  password: ${DB_PASSWORD}

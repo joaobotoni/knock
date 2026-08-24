@@ -25,6 +25,12 @@ func (d *Database) Validate() error {
 	if d.Port == 0 {
 		errs = append(errs, fmt.Errorf("port é obrigatório"))
 	}
+	if d.Port < 0 {
+		errs = append(errs, fmt.Errorf("port não pode ser negativo: %d", d.Port))
+	}
+	if d.Port > 65535 {
+		errs = append(errs, fmt.Errorf("port acima do máximo (65535): %d", d.Port))
+	}
 	if d.Name == "" {
 		errs = append(errs, fmt.Errorf("name é obrigatório"))
 	}

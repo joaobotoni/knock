@@ -13,7 +13,12 @@ func Load(path string) (*knock.Config, error) {
 		return nil, fmt.Errorf("ler configuração %q: %w", path, err)
 	}
 
-	var cfg *knock.Config
+	data, err = expand(data)
+	if err != nil {
+		return nil, fmt.Errorf("expandir variáveis em %q: %w", path, err)
+	}
+
+	var cfg knock.Config
 	if err := yaml.Unmarshal(data, &cfg); err != nil {
 		return nil, fmt.Errorf("parsear YAML de %q: %w", path, err)
 	}
@@ -21,6 +26,17 @@ func Load(path string) (*knock.Config, error) {
 	if err := cfg.Validate(); err != nil {
 		return nil, fmt.Errorf("configuração inválida em %q: %w", path, err)
 	}
+	return &cfg, nil
+}
 
-	return cfg, nil
+func expand(data []byte) ([]byte, error) {
+	var err error
+	out := os.Expand(string(data), func(key string) string {
+		v, ok := os.LookupEnv(key)
+		if !ok && err == nil {
+			err = fmt.Errorf("variável não definida: %s", key)
+		}
+		return v
+	})
+	return []byte(out), err
 }
