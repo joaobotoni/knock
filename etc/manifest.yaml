@@ -1,2 +1,2 @@
 manifest:
- - database: database.yaml
+ - database: yaml/database.yaml

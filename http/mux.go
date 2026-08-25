@@ -1,10 +1,9 @@
-package server
+package http
 
 import (
 	"fmt"
 	"net/http"
 )
-
 
 func NewMux(routes Routes) Handler {
 	mux := http.NewServeMux()

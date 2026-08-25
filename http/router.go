@@ -1,4 +1,4 @@
-package server
+package http
 
 type Route struct {
 	Method     string

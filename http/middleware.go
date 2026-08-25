@@ -1,4 +1,4 @@
-package server
+package http
 
 type Middleware func(Handler) Handler
 
