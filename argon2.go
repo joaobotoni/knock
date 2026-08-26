@@ -1,10 +1,10 @@
 package knock
 
-type Argon2Config struct {
-	HashRaw   []byte
-	Salt      []byte
-	Time      uint32
-	Memory    uint32
-	Threads   uint8
-	KeyLength uint32
+
+type Params struct {
+    Memory      uint32
+    Iterations  uint32
+    Parallelism uint8
+    SaltLength  uint32
+    KeyLength   uint32
 }
