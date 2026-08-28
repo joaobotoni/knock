@@ -1,4 +1,4 @@
-package http
+package khttp
 
 type Route struct {
 	Method     string
@@ -16,7 +16,7 @@ func Router(prefix string, routes Routes) Routes {
 func mount(prefix string, routes Routes) Routes {
 	mounted := make(Routes, len(routes))
 	for i, route := range routes {
-		route.Path = prefix + route.Path
+		route.Path = join(prefix, route.Path)
 		mounted[i] = route
 	}
 	return mounted

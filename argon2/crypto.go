@@ -4,11 +4,10 @@ import (
 	"crypto/rand"
 	"fmt"
 
-	"github.com/joaobotoni/knock"
 	"golang.org/x/crypto/argon2"
 )
 
-func key(passwd string, salt []byte, p knock.Params) []byte {
+func key(passwd string, salt []byte, p Params) []byte {
 	return argon2.IDKey([]byte(passwd), salt, p.Iterations, p.Memory, p.Parallelism, p.KeyLength)
 }
 

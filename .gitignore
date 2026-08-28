@@ -1,1 +1,3 @@
 .env
+etc/tls/
+etc/jwt/

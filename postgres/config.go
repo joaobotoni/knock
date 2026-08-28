@@ -1,4 +1,4 @@
-package knock
+package postgres
 
 import (
 	"errors"
@@ -10,7 +10,7 @@ const (
 	portMax = 65535
 )
 
-type Database struct {
+type Config struct {
 	Host     string `yaml:"host"`
 	Port     int    `yaml:"port"`
 	Name     string `yaml:"name"`
@@ -18,26 +18,26 @@ type Database struct {
 	Password string `yaml:"password"`
 }
 
-func ValidateDatabase(d *Database) error {
+func validate(c *Config) error {
 	var errs []error
-	if d.Host == "" {
+	if c.Host == "" {
 		errs = append(errs, fmt.Errorf("host é obrigatório"))
 	}
 	switch {
-	case d.Port == 0:
+	case c.Port == 0:
 		errs = append(errs, fmt.Errorf("port é obrigatório"))
-	case d.Port < portMin:
-		errs = append(errs, fmt.Errorf("port não pode ser negativo: %d", d.Port))
-	case d.Port > portMax:
-		errs = append(errs, fmt.Errorf("port acima do máximo (%d): %d", portMax, d.Port))
+	case c.Port < portMin:
+		errs = append(errs, fmt.Errorf("port não pode ser negativo: %d", c.Port))
+	case c.Port > portMax:
+		errs = append(errs, fmt.Errorf("port acima do máximo (%d): %d", portMax, c.Port))
 	}
-	if d.Name == "" {
+	if c.Name == "" {
 		errs = append(errs, fmt.Errorf("name é obrigatório"))
 	}
-	if d.Username == "" {
+	if c.Username == "" {
 		errs = append(errs, fmt.Errorf("username é obrigatório"))
 	}
-	if d.Password == "" {
+	if c.Password == "" {
 		errs = append(errs, fmt.Errorf("password é obrigatório"))
 	}
 	return errors.Join(errs...)

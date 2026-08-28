@@ -5,11 +5,10 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/joaobotoni/knock"
 	"go.yaml.in/yaml/v4"
 )
 
-func Load(path string) (*knock.Manifest, error) {
+func Load[T any](path string) (*T, error) {
 	var inc includes
 	var dir string = filepath.Dir(path)
 	if err := read(path, &inc); err != nil {
@@ -21,13 +20,9 @@ func Load(path string) (*knock.Manifest, error) {
 		return nil, err
 	}
 
-	var manifest knock.Manifest
-	if err := yaml.Unmarshal(data, &manifest); err != nil {
+	var out T
+	if err := yaml.Unmarshal(data, &out); err != nil {
 		return nil, fmt.Errorf("parsear configuração combinada de %q: %w", path, err)
 	}
-
-	if err := knock.ValidateManifest(&manifest); err != nil {
-		return nil, fmt.Errorf("configuração inválida em %q: %w", path, err)
-	}
-	return &manifest, nil
+	return &out, nil
 }

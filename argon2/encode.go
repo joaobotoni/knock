@@ -3,15 +3,21 @@ package argon2
 import (
 	"encoding/base64"
 	"fmt"
-
-	"github.com/joaobotoni/knock"
 	"golang.org/x/crypto/argon2"
 )
 
-
-func encode(p knock.Params, salt, hash []byte) string {
-	b64 := base64.RawStdEncoding.EncodeToString
-	return fmt.Sprintf("$argon2id$v=%d$m=%d,t=%d,p=%d$%s$%s",
-		argon2.Version, p.Memory, p.Iterations, p.Parallelism, b64(salt), b64(hash))
+func encode(p Params, salt, hash []byte) string {
+	return fmt.Sprintf("$%s$%s", encodeParams(p), encodeHash(salt, hash))
 }
 
+func encodeParams(p Params) string {
+	return fmt.Sprintf("argon2id$v=%d$m=%d,t=%d,p=%d", argon2.Version, p.Memory, p.Iterations, p.Parallelism)
+}
+
+func encodeHash(salt, hash []byte) string {
+	return fmt.Sprintf("%s$%s", encodeB64(salt), encodeB64(hash))
+}
+
+func encodeB64(b []byte) string {
+	return base64.RawStdEncoding.EncodeToString(b)
+}

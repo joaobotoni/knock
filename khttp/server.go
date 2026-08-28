@@ -1,4 +1,4 @@
-package http
+package khttp
 
 import (
 	"net/http"
@@ -20,5 +20,6 @@ func NewServer(address string, handler Handler) *http.Server {
 		WriteTimeout:   writeTimeout,
 		IdleTimeout:    idleTimeout,
 		MaxHeaderBytes: maxHeaderBytes,
+		TLSConfig:      tlsConfig(),
 	}
 }
